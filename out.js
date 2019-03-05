@@ -1,7 +1,6 @@
 const figlet = require('figlet');
 const chalk = require('chalk');
 
-
 /**
  * Dar color a un string.
  *

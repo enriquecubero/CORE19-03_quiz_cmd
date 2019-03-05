@@ -188,10 +188,58 @@ exports.testCmd = (rl, id) => {
  * @param rl Objeto readline usado para implementar el CLI.
  */
 exports.playCmd = rl => {
-    log('Jugar.', 'red');
-    rl.prompt();
-};
 
+    let score = 0;
+    var i;
+    //array con todos los ids
+    let toBeResolved =[];
+    let num_preg = model.count();
+    for(i = 0; i<num_preg; i++){
+        toBeResolved[i] = i;
+    }
+    const playOne = () =>{
+        if(toBeResolved.length === 0){
+            log("Fin");
+            log(` No hay más preguntas`);
+            log(` Has conseguido : ${score} puntos`);
+            biglog(score, 'yellow');
+            rl.prompt();
+        } else{
+            // Elegir una pregunta aleatoria
+            let id = Math.round(Math.random()*(toBeResolved.length-1));
+
+            // Hacer la pregunta
+            let quiz = model.getByIndex(toBeResolved[id]);
+            toBeResolved.splice(id,1);
+            rl.question(colorize('¿' +quiz.question + '?','red'), respuesta =>{
+                quizResp = quiz.answer.toLowerCase().trim();
+                resp = respuesta.toLowerCase().trim();
+                if(resp === quizResp){
+                    // CORRECTO, CONTINUA
+                    score ++;
+
+                    log(` Correcto `);
+                    log(`Lleva  ${score}  aciertos`);
+                    // HACER UNA NUEVA PREGUNTA
+                    if(score == num_preg){
+                        biglog('GANADOR', 'green');
+                    }
+                    playOne();
+                }
+                else{
+                    //INCORRECTO, FINAL
+                    log("Incorrecto");
+                    log("Fin ");
+                    log ("Aciertos: ");
+                    biglog(`${score}`, 'yellow');
+                    rl.prompt();
+
+                }
+            });
+        }
+    }
+    playOne();
+};
 
 /**
  * Muestra los nombres de los autores de la práctica.
