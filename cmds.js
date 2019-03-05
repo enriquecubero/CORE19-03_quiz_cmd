@@ -1,5 +1,4 @@
 
-
 const {log, biglog, errorlog, colorize} = require("./out");
 
 const model = require('./model');
