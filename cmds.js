@@ -164,11 +164,13 @@ exports.testCmd = (rl, id) => {
                 if(resp === quizResp){
                     // CORRECTO
                     log("Correcto ");
+                    biglog('CORRECTO', 'green');
                     rl.prompt();
                 }
                 else{
                     //INCORRECTO
                     log("Incorrecto ");
+                    biglog('INCORRECTO', 'red');
                     rl.prompt();
                 }
             });
@@ -248,8 +250,7 @@ exports.playCmd = rl => {
  */
 exports.creditsCmd = rl => {
     log('Autores de la práctica:');
-    log('Nombre 1', 'green');
-    log('Nombre 2', 'green');
+    log('ENRIQUE CUBERO CANTERO', 'green');
     rl.prompt();
 };
 
