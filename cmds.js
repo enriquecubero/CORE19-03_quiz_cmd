@@ -150,8 +150,34 @@ exports.editCmd = (rl, id) => {
  * @param id Clave del quiz a probar.
  */
 exports.testCmd = (rl, id) => {
-    log('Probar el quiz indicado.', 'red');
-    rl.prompt();
+
+    if(typeof id ==="undefined"){
+        errorlog (`Falta el parametro id.`);
+        rl.prompt();
+    }else{
+        try{
+            const quiz = model.getByIndex(id);
+
+            rl.question(colorize('¿' +quiz.question + '?','red'), respuesta =>{
+                quizResp = quiz.answer.toLowerCase().trim();
+                resp = respuesta.toLowerCase().trim();
+                if(resp === quizResp){
+                    // CORRECTO
+                    log("Correcto ");
+                    rl.prompt();
+                }
+                else{
+                    //INCORRECTO
+                    log("Incorrecto ");
+                    rl.prompt();
+                }
+            });
+
+        } catch(error){
+            errorlog(error.message);
+            rl.prompt();
+        }
+    }
 };
 
 
